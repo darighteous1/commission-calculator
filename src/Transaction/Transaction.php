@@ -3,10 +3,13 @@
 namespace App\Transaction;
 
 use DateTime;
+use InvalidArgumentException;
+use App\Exception\BaseException;
 use App\Calculator\Calculator;
 use App\User\User;
 use App\Currency\Money;
 use App\Currency\Currency;
+use App\Transaction\Exception\InvalidTransactionTypeException;
 
 class Transaction
 {
@@ -34,9 +37,10 @@ class Transaction
     private $transactionDate;
 
     /**
-     * @var string
      * It consists of the week number and year number of the transaction
      * to avoid miscalculating commission fees for transactions that are in the same week, but in different year
+     *
+     * @var string
      */
     private $transactionWeek;
 
@@ -50,32 +54,45 @@ class Transaction
         );
 
         $this->transactionWeek = (function ($transactionDate) {
-            /* @var DateTime $transactionDate */
-            return $transactionDate->format('W').$transactionDate->format('Y');
-        })($this->getTransactionDate());
+            /** @var DateTime */
+            return $transactionDate->format('W') . $transactionDate->format('Y');
+        })(
+            $this->getTransactionDate()
+        );
     }
 
     /**
      * @param string $transactionType
+     *
+     * @return Transaction
+     * @throws InvalidTransactionTypeException
      */
     private function setTransactionType(string $transactionType)
     {
-        if (!in_array($transactionType, self::ALLOWED_OPERATIONS)) {
-            throw TransactionException::invalidTransactionType($transactionType);
+        if (!in_array($transactionType, self::ALLOWED_OPERATIONS, true)) {
+            throw new InvalidTransactionTypeException(BaseException::EXIT_INVALID_OPERATION_TYPE);
         }
 
         $this->transactionType = $transactionType;
+
+        return $this;
     }
 
     /**
      * @param string $transactionDate
+     *
+     * @return Transaction
+     * @throws InvalidArgumentException
      */
     private function setTransactionDate(string $transactionDate)
     {
         if (!preg_match("(\d{4}-\d{2}-\d{2})", $transactionDate)) {
-            throw TransactionException::invalidTransactionDateFormat($transactionDate);
+            throw new InvalidArgumentException('Wrong date format.');
         }
+
         $this->transactionDate = DateTime::createFromFormat('Y-d-m', $transactionDate);
+
+        return $this;
     }
 
     /**
@@ -127,7 +144,6 @@ class Transaction
     }
 
     /**
-     * Check if this transaction should be free of commission
      * NOTE: currently not used.
      *
      * @param User $user
@@ -141,8 +157,6 @@ class Transaction
     }
 
     /**
-     * Calculates the base amount for the commission fee.
-     *
      * @param User $user
      *
      * @return Money
@@ -167,11 +181,6 @@ class Transaction
     }
 
     /**
-     * Full commission is paid for:
-     * all cash-in operations
-     * all operations by legal entities
-     * any cash-out operation by natural persons after the free number of operations is reached.
-     *
      * @param User $user
      *
      * @return bool
@@ -187,11 +196,7 @@ class Transaction
     }
 
     /**
-     * Partial commission is paid for :
-     * cash-out operations performed by natural persons
-     * when the current operation exceeds the available cap-space.
-     *
-     * cap-space is calculated when we subtract the cash-out Transaction total for the current week
+     * Cap-space is calculated when we subtract the cash-out Transaction total for the current week
      * from the free limit (@see Calculator::FREE_TRANSACTION_LIMIT_EUR)
      *
      * @param User $user

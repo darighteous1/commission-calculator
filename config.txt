@@ -1,0 +1,11 @@
+{
+    "lint.engine": "PhpCsFixerLintEngine",
+    "lint.php_cs_fixer.php_cs_binary" : "bin/php-cs-fixer",
+    "lint.php_cs_fixer.fix_paths" : [
+        "src/"
+    ],
+    "lint.php_cs_fixer.php_cs_file": ".php_cs",
+    "load": [
+        "vendor/paysera/lib-arcanist-php-cs-extension/src/"
+    ]
+}

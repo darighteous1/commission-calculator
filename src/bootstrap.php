@@ -9,7 +9,8 @@ use App\Utility\Mapper\JsonMapper;
 use App\Utility\Parser\CsvParser;
 use App\Utility\Parser\JsonParser;
 
-$exceptionHandler = new ExceptionHandler();
+$outputHandler = new OutputHandler();
+$exceptionHandler = new ExceptionHandler($outputHandler);
 
 try {
     if (defined('STDIN')) {
@@ -21,13 +22,12 @@ try {
             $mapper = new CsvMapper();
         }
 
-        $parser->setFile($argv[1]);
+        $parser->setFilename($argv[1]);
 
         $inputHandler = new InputHandler($parser, $mapper);
-        $outputHandler = new OutputHandler();
 
         $calculator = new App\Calculator\Calculator($inputHandler, $outputHandler);
-        $calculator->run();
+        $calculator->calculate();
     }
 } catch (BaseException $exception) {
     $exceptionHandler->handleException($exception);

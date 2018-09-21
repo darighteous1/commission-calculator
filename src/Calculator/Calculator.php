@@ -4,7 +4,9 @@ namespace App\Calculator;
 
 use App\Currency\Currency;
 use App\Currency\Money;
+use App\Exception\BaseException;
 use App\Transaction\Transaction;
+use App\Transaction\Exception\InvalidTransactionTypeException;
 use App\Transaction\TransactionRow;
 use App\User\User;
 use App\Utility\IOHandler\InputHandler;
@@ -19,13 +21,11 @@ class Calculator
     const FREE_TRANSACTIONS_PER_WEEK = 3;
     const FREE_TRANSACTION_LIMIT_EUR = 1000;
 
-    /** @var array $processedUsers */
+    /**
+     * @var User[]
+     */
     private $processedUsers;
-
-    /** @var InputHandler $inputHandler */
     private $inputHandler;
-
-    /** @var OutputHandler $outputHandler */
     private $outputHandler;
 
     /**
@@ -40,10 +40,7 @@ class Calculator
         $this->outputHandler = $outputHandler;
     }
 
-    /**
-     * Calculates commission for each transaction contained in the processed file
-     */
-    public function run()
+    public function calculate()
     {
         /** @var TransactionRow $transactionRow */
         foreach ($this->inputHandler->getNextTransactionRow() as $transactionRow) {
@@ -58,31 +55,27 @@ class Calculator
                 $this->roundCommission($commission)
             );
 
-            $this->outputHandler->print($output);
+            $this->outputHandler->logToConsole($output);
         }
     }
 
     /**
-     * Calculates the commission fee for a given transaction.
-     *
      * @param Transaction $transaction
      *
      * @return Money
      */
     public function calculateCommission(Transaction $transaction): Money
     {
-        $methodName = str_replace('_', '', ucwords($transaction->getTransactionType(), '_'));
-        $methodName = 'calculateCommission'.$methodName;
+        if ($transaction->getTransactionType() === Transaction::TYPE_CASH_IN) {
+            return $this->calculateCommissionCashIn($transaction);
+        } elseif ($transaction->getTransactionType() === Transaction::TYPE_CASH_OUT) {
+            return $this->calculateCommissionCashOut($transaction);
+        }
 
-        return $this->{$methodName}($transaction);
+        throw new InvalidTransactionTypeException(BaseException::EXIT_INVALID_OPERATION_TYPE);
     }
 
     /**
-     * Calculate the commission fee for Cash In operations
-     * This is the same every time.
-     *
-     * Called dynamically by calculateCommission
-     *
      * @param Transaction $transaction
      *
      * @return Money
@@ -102,35 +95,17 @@ class Calculator
     }
 
     /**
-     * Calculate the commission fee for Cash Out operations
-     * This is different for natural and legal persons.
-     *
-     * For natural persons there is a free transaction limit in EUR per week
-     * as well as free transaction number per week
-     * If one of those limits is reached, clients should pay a commission fee
-     *
-     * For legal entities, this is a default percent with lower fee limit
-     *
-     * Called dynamically by calculateCommission
-     *
      * @param Transaction $transaction
      *
      * @return Money
      */
     private function calculateCommissionCashOut(Transaction $transaction): Money
     {
-        /**
-         * Legal entity
-         * Always a fixed percentage from the transaction amount
-         * @see self::DEFAULT_CASH_IN_COMMISSION
-         * but not less than a certain amount
-         * @see self::MIN_COMMISSION_LEGAL_ENTITIES_EUR
-         */
         if ($this->currentUser->getUserType() === User::USER_TYPE_LEGAL) {
             $commissionAmount = $transaction->getTransactionAmount() * self::DEFAULT_CASH_OUT_COMMISSION;
             $maxCommission = new Money(self::MAX_CASH_IN_COMMISSION_EUR, new Currency(Currency::EUR));
 
-            if ($transaction->getTransactionCurrency()->getCode() === Currency::EUR) {
+            if ($transaction->getTransactionCurrency()->getCurrency() === Currency::EUR) {
                 $commissionAmount = min($commissionAmount, self::MAX_CASH_IN_COMMISSION_EUR);
             } else {
                 $commissionAmount = min(
@@ -141,34 +116,23 @@ class Calculator
             }
 
             return new Money($commissionAmount, $transaction->getTransactionCurrency());
-        } else {
-            /**
-             * This is a natural person
-             * We must check whether the transaction should be free of charge
-             * and if not, calculate the commission fee.
-             */
-            $base = $transaction->calculateCommissionBaseAmount($this->currentUser);
-
-            return new Money(
-                $base->getAmount() * self::DEFAULT_CASH_OUT_COMMISSION,
-                $transaction->getTransactionCurrency()
-            );
         }
+
+        $baseAmount = $transaction->calculateCommissionBaseAmount($this->currentUser);
+
+        return new Money(
+            $baseAmount->getAmount() * self::DEFAULT_CASH_OUT_COMMISSION,
+            $transaction->getTransactionCurrency()
+        );
     }
 
     /**
-     * Creates a new user or
-     * returns the user by ID if it already exists.
-     *
      * @param TransactionRow $row
+     *
      * @return User
      */
     private function getCurrentUser(TransactionRow $row): User
     {
-        /**
-         * Create the user if we haven't processed it yet
-         * If the user is processed, however, get it from the list of processed Users.
-         */
         if (!isset($this->processedUsers[$row->getUserId()])) {
             $currentUser = new User($row->getUserId(), $row->getUserType());
             $this->processedUsers[$currentUser->getUserId()] = $currentUser;
@@ -181,9 +145,6 @@ class Calculator
     }
 
     /**
-     * Rounds up the commission fee to the smallest Currency fraction
-     * e.g. 0.023 EUR becomes 0.03 EUR.
-     *
      * @param Money $commission
      *
      * @return float

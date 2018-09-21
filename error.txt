@@ -1,0 +1,63 @@
+ ARGV  '/home/darighteous1/Tools/arcanist/bin/../scripts/arcanist.php' 'lint' '--trace'
+ LOAD  Loaded "phutil" from "/home/darighteous1/Tools/libphutil/src".
+ LOAD  Loaded "arcanist" from "/home/darighteous1/Tools/arcanist/src".
+Config: Reading user configuration file "/home/darighteous1/.arcrc"...
+Config: Did not find system configuration at "/etc/arcconfig".
+Working Copy: Reading .arcconfig from "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/.arcconfig".
+Working Copy: Path "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov" is part of `git` working copy "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov".
+Working Copy: Project root is at "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov".
+Config: Did not find local configuration at "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/.git/arc/config".
+Loading phutil library from '/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/vendor/paysera/lib-arcanist-php-cs-extension/src'...
+>>> [0] (+0) <exec> $ git rev-parse --verify HEAD^
+<<< [0] (+2) <exec> 2,660 us
+>>> [1] (+3) <exec> $ git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}'
+<<< [1] (+5) <exec> 2,099 us
+>>> [2] (+5) <exec> $ git cat-file -t 'origin/master'
+<<< [2] (+7) <exec> 2,084 us
+>>> [3] (+7) <exec> $ git merge-base 'origin/master' HEAD
+<<< [3] (+9) <exec> 2,057 us
+>>> [4] (+9) <exec> $ git diff --no-ext-diff --no-textconv --submodule=short --raw '034673e6537b72d8cacaec885830a9d85a01ea7a' HEAD --
+<<< [4] (+12) <exec> 2,480 us
+>>> [5] (+12) <exec> $ git --version
+<<< [5] (+14) <exec> 1,970 us
+>>> [6] (+14) <exec> $ git status --porcelain=2 -z
+<<< [6] (+16) <exec> 2,460 us
+>>> [7] (+17) <exec> $ git diff --no-ext-diff --no-textconv --submodule=short --no-color --src-prefix=a/ --dst-prefix=b/ -U32767 -M -C '034673e6537b72d8cacaec885830a9d85a01ea7a' --
+<<< [7] (+21) <exec> 4,351 us
+>>> [8] (+31) <exec> $ which 'bin/php-cs-fixer'
+<<< [8] (+33) <exec> 1,979 us
+>>> [9] (+33) <exec> $ 'bin/php-cs-fixer' --version
+<<< [9] (+109) <exec> 76,306 us
+>>> [10] (+110) <exec> $ which 'bin/php-cs-fixer'
+<<< [10] (+112) <exec> 1,940 us
+>>> [11] (+112) <exec> $ which 'bin/php-cs-fixer'
+<<< [11] (+114) <exec> 1,615 us
+>>> [12] (+114) <exec> $ 'bin/php-cs-fixer' --version
+<<< [12] (+191) <exec> 76,869 us
+>>> [13] (+191) <lint> PHP_CS_FIXER Linter <paths = 6>
+>>> [14] (+192) <exec> $ which 'bin/php-cs-fixer'
+<<< [14] (+194) <exec> 1,981 us
+>>> [15] (+195) <exec> $ 'bin/php-cs-fixer' 'fix' '--verbose' '--dry-run' '--diff' '--format=json' '--using-cache=no' '--config=.php_cs' src/Calculator/Calculator.php
+>>> [16] (+195) <exec> $ 'bin/php-cs-fixer' 'fix' '--verbose' '--dry-run' '--diff' '--format=json' '--using-cache=no' '--config=.php_cs' src/Exception/ExceptionHandler.php
+>>> [17] (+196) <exec> $ 'bin/php-cs-fixer' 'fix' '--verbose' '--dry-run' '--diff' '--format=json' '--using-cache=no' '--config=.php_cs' src/Exception/InvalidRowException.php
+>>> [18] (+198) <exec> $ 'bin/php-cs-fixer' 'fix' '--verbose' '--dry-run' '--diff' '--format=json' '--using-cache=no' '--config=.php_cs' src/Transaction/TransactionRow.php
+>>> [19] (+200) <exec> $ 'bin/php-cs-fixer' 'fix' '--verbose' '--dry-run' '--diff' '--format=json' '--using-cache=no' '--config=.php_cs' src/Utility/IOHandler/InputHandler.php
+>>> [20] (+202) <exec> $ 'bin/php-cs-fixer' 'fix' '--verbose' '--dry-run' '--diff' '--format=json' '--using-cache=no' '--config=.php_cs' src/bootstrap.php
+<<< [13] (+203) <lint> 11,976 us
+>>> [21] (+203) <lint> PHP_CS_FIXER Linter <paths = 6>
+<<< [16] (+306) <exec> 110,076 us
+<<< [21] (+307) <lint> 103,556 us
+
+[2018-09-14 13:21:56] EXCEPTION: (PhutilAggregateException) Some linters failed:
+    - PhutilJSONParserException: Parse error on line 1 at column 0: Expected one of: 'STRING', 'NUMBER', 'NULL', 'TRUE', 'FALSE', '{', '[' at [<arcanist>/src/lint/engine/ArcanistLintEngine.php:274]
+arcanist(head=master, ref.master=30b7835c37b5), php-cs-fixer-lint-engine(), phutil(head=master, ref.master=a28f6e5d64f3)
+  #0 <#2> PhutilJSONParser::parse(string) called at [<phutil>/src/utils/utils.php:1154]
+  #1 <#2> phutil_json_decode(string) called at [<php-cs-fixer-lint-engine>/Lint/Linter/PhpCsFixerLinter.php:169]
+  #2 <#2> PhpCsFixerLinter::parseLinterOutput(string, integer, string, string) called at [<arcanist>/src/lint/linter/ArcanistExternalLinter.php:437]
+  #3 <#2> ArcanistExternalLinter::resolveFuture(string, ExecFuture) called at [<arcanist>/src/lint/linter/ArcanistFutureLinter.php:34]
+  #4 <#2> ArcanistFutureLinter::didLintPaths(array) called at [<arcanist>/src/lint/engine/ArcanistLintEngine.php:605]
+  #5 <#2> ArcanistLintEngine::executeDidLintOnPaths(PhpCsFixerLinter, array) called at [<arcanist>/src/lint/engine/ArcanistLintEngine.php:556]
+  #6 <#2> ArcanistLintEngine::executeLintersOnChunk(array, array) called at [<arcanist>/src/lint/engine/ArcanistLintEngine.php:484]
+  #7 <#2> ArcanistLintEngine::executeLinters(array) called at [<arcanist>/src/lint/engine/ArcanistLintEngine.php:216]
+  #8 ArcanistLintEngine::run() called at [<arcanist>/src/workflow/ArcanistLintWorkflow.php:337]
+  #9 ArcanistLintWorkflow::run() called at [<arcanist>/scripts/arcanist.php:394]

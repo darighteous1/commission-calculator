@@ -11,34 +11,12 @@ class TransactionRow
      */
     private $columns;
 
-    /**
-     * @var int
-     */
     private $rowNumber;
-
-    /**
-     * @var string
-     */
     private $date;
-    /**
-     * @var string
-     */
     private $userId;
-    /**
-     * @var string
-     */
     private $userType;
-    /**
-     * @var string
-     */
     private $operationType;
-    /**
-     * @var string
-     */
     private $amount;
-    /**
-     * @var string
-     */
     private $currency;
 
     public function __construct(
@@ -122,6 +100,4 @@ class TransactionRow
     {
         return $this->currency;
     }
-
-
 }

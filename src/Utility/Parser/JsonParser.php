@@ -4,17 +4,21 @@ namespace App\Utility\Parser;
 
 class JsonParser implements ParserInterface
 {
+    /**
+     * @var string
+     */
     private $fileName;
 
     /**
-     * Sets the file name
-     *
      * @param string $fileName
-     * @return void
+     *
+     * @return JsonParser
      */
-    public function setFile(string $fileName)
+    public function setFilename(string $fileName)
     {
         $this->fileName = $fileName;
+
+        return $this;
     }
 
     /**

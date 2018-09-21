@@ -1,0 +1,39 @@
+#0 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(125): App\Exception\InvalidRowException::incorrectColumns(7, 1)
+#1 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(61): App\Transaction\TransactionRow->setColumns(1)
+#2 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Utility/IOHandler/InputHandler.php(42): App\Transaction\TransactionRow->__construct(Array, 7)
+#3 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Calculator/Calculator.php(45): App\Utility\IOHandler\InputHandler->getTransactionCSV()
+#4 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/bootstrap.php(19): App\Calculator\Calculator->run()
+#5 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/public/app.php(3): require_once('/home/darighteo...')
+#6 {main}
+
+#0 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(125): App\Exception\InvalidRowException::incorrectColumns(7, 1)
+#1 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(61): App\Transaction\TransactionRow->setColumns(1)
+#2 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Utility/IOHandler/InputHandler.php(42): App\Transaction\TransactionRow->__construct(7, Array)
+#3 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Calculator/Calculator.php(45): App\Utility\IOHandler\InputHandler->getTransactionCsv()
+#4 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/bootstrap.php(16): App\Calculator\Calculator->run()
+#5 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/public/app.php(3): require_once('/home/darighteo...')
+#6 {main}
+
+#0 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(123): App\Exception\InvalidRowException::incorrectColumns(7, 1)
+#1 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(59): App\Transaction\TransactionRow->setColumns(1)
+#2 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Utility/IOHandler/InputHandler.php(39): App\Transaction\TransactionRow->__construct(7, Array)
+#3 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Calculator/Calculator.php(49): App\Utility\IOHandler\InputHandler->getTransactionCsv()
+#4 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/bootstrap.php(15): App\Calculator\Calculator->run()
+#5 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/public/app.php(3): require_once('/home/darighteo...')
+#6 {main}
+
+#0 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(123): App\Exception\InvalidRowException::incorrectColumns(7, 1)
+#1 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Transaction/TransactionRow.php(59): App\Transaction\TransactionRow->setColumns(1)
+#2 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Utility/IOHandler/InputHandler.php(39): App\Transaction\TransactionRow->__construct(7, Array)
+#3 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Calculator/Calculator.php(49): App\Utility\IOHandler\InputHandler->getTransactionCsv()
+#4 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/bootstrap.php(15): App\Calculator\Calculator->run()
+#5 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/public/app.php(3): require_once('/home/darighteo...')
+#6 {main}
+
+#0 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Utility/Parser/CsvParser.php(36): App\Exception\InvalidRowException::incorrectColumns(7, 1)
+#1 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Utility/IOHandler/InputHandler.php(33): App\Utility\Parser\CsvParser->parse()
+#2 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/Calculator/Calculator.php(49): App\Utility\IOHandler\InputHandler->getNextTransactionRow()
+#3 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/src/bootstrap.php(25): App\Calculator\Calculator->run()
+#4 /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/public/app.php(3): require_once('/home/darighteo...')
+#5 {main}
+

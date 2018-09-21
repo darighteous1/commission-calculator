@@ -2,15 +2,11 @@
 
 namespace App\Utility\Mapper;
 
-
 use App\Transaction\TransactionRow;
 
 class CsvMapper implements DenormalizerInterface
 {
-
     /**
-     * Maps array to entity
-     *
      * @param array $data
      * @return TransactionRow
      */

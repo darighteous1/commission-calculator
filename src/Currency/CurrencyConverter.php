@@ -4,9 +4,6 @@ namespace App\Currency;
 
 class CurrencyConverter
 {
-    /**
-     * @var ConversionRateChecker
-     */
     private $conversionRateChecker;
 
     public function __construct(ConversionRateChecker $conversionRateChecker)
@@ -20,7 +17,7 @@ class CurrencyConverter
      * If else is needed, we can do double conversion
      * e.g. from USD to JPY, we can convert USD->EUR and then EUR->JPY.
      *
-     * @param float    $amount
+     * @param float $amount
      * @param Currency $convertFrom
      * @param Currency $convertTo
      *
@@ -28,12 +25,12 @@ class CurrencyConverter
      */
     public function convertCurrency(float $amount, Currency $convertFrom, Currency $convertTo): float
     {
-        if ($convertFrom->getCode() === $convertTo->getCode()) {
+        if ($convertFrom->getCurrency() === $convertTo->getCurrency()) {
             return $amount;
         }
 
-        $currencyCode = $convertFrom->getCode();
-        $conversionRate = $this->conversionRateChecker->getConversionRate($currencyCode, $convertTo->getCode());
+        $currencyCode = $convertFrom->getCurrency();
+        $conversionRate = $this->conversionRateChecker->getConversionRate($currencyCode, $convertTo->getCurrency());
 
         return $amount * pow($conversionRate, $this->conversionRateChecker->getConversionAction($currencyCode));
     }

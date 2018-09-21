@@ -1,0 +1,53 @@
+ ARGV  '/home/darighteous1/Tools/arcanist/bin/../scripts/arcanist.php' 'diff' '--trace'
+ LOAD  Loaded "phutil" from "/home/darighteous1/Tools/libphutil/src".
+ LOAD  Loaded "arcanist" from "/home/darighteous1/Tools/arcanist/src".
+Config: Reading user configuration file "/home/darighteous1/.arcrc"...
+Config: Did not find system configuration at "/etc/arcconfig".
+Working Copy: Reading .arcconfig from "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/.arcconfig".
+Working Copy: Path "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov" is part of `git` working copy "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov".
+Working Copy: Project root is at "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov".
+Config: Did not find local configuration at "/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/.git/arc/config".
+Loading phutil library from '/home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/vendor/paysera/lib-arcanist-php-cs-extension/src'...
+>>> [0] (+0) <http> https://phabricator.dev.lan/api/user.whoami
+<<< [0] (+559) <http> 559,271 us
+>>> [1] (+570) <exec> $ git --version
+<<< [1] (+579) <exec> 8,418 us
+>>> [2] (+579) <exec> $ git status --porcelain=2 -z
+<<< [2] (+590) <exec> 10,194 us
+You have untracked files in this working copy.
+
+  Working copy: /home/darighteous1/PhpstormProjects/app-commission-fees-tatanasov/
+
+  Untracked changes in working copy:
+  (To ignore this change, add it to ".git/info/exclude".)
+    trace.txt
+
+    Ignore this untracked file and continue? [y/N] 
+>>> [3] (+3,185) <event> diff.didCollectChanges <listeners = 0>
+<<< [3] (+3,185) <event> 319 us
+>>> [4] (+3,186) <exec> $ git rev-parse --verify HEAD^
+<<< [4] (+3,195) <exec> 8,764 us
+>>> [5] (+3,196) <exec> $ git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}'
+<<< [5] (+3,205) <exec> 8,642 us
+>>> [6] (+3,206) <exec> $ git cat-file -t 'master'
+<<< [6] (+3,214) <exec> 8,460 us
+>>> [7] (+3,215) <exec> $ git merge-base 'master' HEAD
+<<< [7] (+3,225) <exec> 9,937 us
+>>> [8] (+3,225) <exec> $ git rev-parse 'HEAD'
+<<< [8] (+3,234) <exec> 8,208 us
+>>> [9] (+3,234) <exec> $ git log --first-parent --format=medium '2eb475a858947851fa01fd726c902f08e4e49e00'..'597c2ef55a85adcb64f4c79e9bce762e3057e48b'
+<<< [9] (+3,245) <exec> 10,076 us
+>>> [10] (+3,256) <http> https://phabricator.dev.lan/api/differential.query
+<<< [10] (+3,730) <http> 474,528 us
+>>> [11] (+3,732) <http> https://phabricator.dev.lan/api/differential.query
+<<< [11] (+4,191) <http> 459,686[?1049h[22;0;0t[1;24r(B[m[4l[?7h[39;49m[?1h=[?1h=[?1h=[?25l[39;49m(B[m[H[2J[22;33H(B[0;7m[ Reading File ](B[m[22;32H(B[0;7m[ Read 15 lines ](B[m[H(B[0;7m        /tmp/edit.bbi851yuuggsckw4/differential-update-comments                 [1;79H(B[m[23d(B[0;7m^G(B[m Get Help  (B[0;7m^O(B[m Write Out (B[0;7m^W(B[m Where Is  (B[0;7m^K(B[m Cut Text  (B[0;7m^J(B[m Justify   (B[0;7m^C(B[m Cur Pos[24d(B[0;7m^X(B[m Exit[14G(B[0;7m^R(B[m Read File (B[0;7m^\(B[m Replace   (B[0;7m^U(B[m Uncut Text(B[0;7m^T(B[m To Spell  (B[0;7m^_(B[m Go To Line[22d[3;3H[39;49m(B[m- moved transaction exceptions to a separate dir[4;3H- removed blank lines in empty exception classes[5;3H- updated .gitignore[6;3H- fixed error in .arcconfig[7;3H- fixed error in composer.json[8;3H- added transactions.csv and transactions.json for easier testing[10d[36m# Updating D29666: CERES-351 add exception handling also includes CERES-347, CE[39m(B[m$[11;1H[36m#[12d# Enter a brief description of the changes included in this update.[13d# The first line is used as subject, next lines as comment.[14d#[15d# If you intended to create a new revision, use:[16d#  $ arc diff --create[3d[39m(B[m[?12l[?25h[?25l[1;71H(B[0;7mModified(B[m[3dN[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[4d[?25l[22d[K[24;45Hcut Text[22d[3;52HN - removed blank[4d[18P[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[5d[?25l[22d[K[24;45Hcut Text[22d7[5;22r8
+[1;24r[4;34HN - updated .gitignore[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[5d[?25l[22d[K[24;45Hcut Text[22d[4;57HN - fixed error[5d[16P[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[6d[?25l[22d[K[24;45Hcut Text[22d[22;14H(B[0;7m[ line 4/15 (26%), col 1/33 (3%), char 157/565 (27%) ](B[m[24;45Hjustify [22d[22;29H[1K (B[0;7m[ Can now UnJustify! ](B[m[K[?12l[?25h[7d[?25l[22d[K[24;45Hcut Text[22d[22;14H(B[0;7m[ line 5/15 (33%), col 1/68 (1%), char 190/565 (33%) ](B[m[6;34Hlkjashdflkashdflkahsdf - added[7d[10P[24;45Hjustify [22d[22;29H[1K (B[0;7m[ Can now UnJustify! ](B[m[K[?12l[?25h[8d[?25l[22d[K[24;45Hcut Text[22d[10;22r[10;1HM[1;24r[9;67H[K[10d[36m# CERES-347, CERES-348 and CERES-349[24;45H[39m(B[mjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[11d[?25l[22d[K[24;45Hcut Text[22d[12;68H[36m The [13d#[39m(B[m[4P[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[14d[?25l[22d[K[24;45Hcut Text[22d[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[16d[?25l[22d[K[24;45Hcut Text[22d[16df'pas'dfja# $ arc diff --create[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[17d[?25l[22d[K[24;45Hcut Text[22d[16;33Hja.ksdjf;lakjdf'asd[24;45Hjustify [22d[22;30H(B[0;7m[ Can now UnJustify! ](B[m[?12l[?25h[17d[24;1H[?1049l[23;0;0t[?1l>Too many errors from stdin
+Buffer written to /tmp/edit.bbi851yuuggsckw4/differential-update-comments.save
+<<< [16] (+86,907) <exec> 81,764,952 us
+
+[2018-09-21 08:24:39] EXCEPTION: (Exception) Editor exited with an error code (#1). at [<phutil>/src/console/PhutilInteractiveEditor.php:81]
+arcanist(head=master, ref.master=30b7835c37b5), php-cs-fixer-lint-engine(), phutil(head=master, ref.master=a28f6e5d64f3)
+  #0 PhutilInteractiveEditor::editInteractively() called at [<arcanist>/src/workflow/ArcanistDiffWorkflow.php:1889]
+  #1 ArcanistDiffWorkflow::getUpdateMessage(array, string) called at [<arcanist>/src/workflow/ArcanistDiffWorkflow.php:773]
+  #2 ArcanistDiffWorkflow::buildRevisionFromCommitMessage(ArcanistDifferentialCommitMessage) called at [<arcanist>/src/workflow/ArcanistDiffWorkflow.php:478]
+  #3 ArcanistDiffWorkflow::run() called at [<arcanist>/scripts/arcanist.php:394]

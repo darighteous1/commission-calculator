@@ -1,0 +1,13 @@
+{
+    "linters": {
+        "php-cs-fixer": {
+            "type": "php-cs-fixer",
+            "bin": "bin/php-cs-fixer",
+            "fix_paths": [
+                "src/"
+            ],
+            "php_cs_file": ".php_cs",
+            "unified_diff_format": false
+        }
+    }
+}

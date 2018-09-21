@@ -2,11 +2,12 @@
 
 namespace App\Currency;
 
-use App\Exception\CurrencyException;
+use App\Currency\Exception\InvalidCurrencyException;
+use App\Exception\BaseException;
+use InvalidArgumentException;
 
 class Currency
 {
-    // NOTE: these should not be here
     const EUR = 'EUR';
     const USD = 'USD';
     const JPY = 'JPY';
@@ -25,38 +26,43 @@ class Currency
 
     /**
      * @var string
-     *             The code of the Currency, e.g. EUR
      */
-    private $code;
+    private $currency;
 
     /**
      * @var int fraction
-     *          The decimal fraction of the Currency
-     *          e.g. JPY does not have fractions
      */
     private $fraction;
 
-    public function __construct($currencyCode)
+    public function __construct(string $currencyCode)
     {
-        $this->setCode($currencyCode);
+        $this->setCurrency($currencyCode);
         $this->setFraction($currencyCode);
     }
 
     /**
      * @return string
      */
-    public function getCode(): string
+    public function getCurrency(): string
     {
-        return $this->code;
+        return $this->currency;
     }
 
-    private function setCode($currencyCode)
+    /**
+     * @param string $currencyCode
+     *
+     * @return Currency
+     * @throws InvalidCurrencyException
+     */
+    private function setCurrency(string $currencyCode)
     {
-        if (!in_array($currencyCode, self::CURRENCY_MAP)) {
-            throw CurrencyException::invalidCurrencyCode($currencyCode);
+        if (!in_array($currencyCode, self::CURRENCY_MAP, true)) {
+            throw new InvalidCurrencyException(BaseException::EXIT_INVALID_CURRENCY);
         }
 
-        $this->code = $currencyCode;
+        $this->currency = $currencyCode;
+
+        return $this;
     }
 
     /**
@@ -67,12 +73,20 @@ class Currency
         return $this->fraction;
     }
 
+    /**
+     * @param string $currencyCode
+     *
+     * @return Currency
+     * @throws InvalidArgumentException
+     */
     private function setFraction(string $currencyCode)
     {
         if (self::FRACTION_MAP[$currencyCode] < 0) {
-            throw new \InvalidArgumentException(sprintf('Invalid fraction for Currency %s.', $currencyCode));
+            throw new InvalidArgumentException(sprintf('Invalid fraction for Currency %s.', $currencyCode));
         }
 
         $this->fraction = self::FRACTION_MAP[$currencyCode];
+
+        return $this;
     }
 }

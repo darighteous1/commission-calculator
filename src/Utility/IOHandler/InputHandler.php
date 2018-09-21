@@ -8,14 +8,7 @@ use App\Utility\Parser\ParserInterface;
 class InputHandler
 {
     const EXPECTED_NUMBER_OF_COLUMNS = 6;
-
-    /**
-     * @var ParserInterface
-     */
     private $parser;
-    /**
-     * @var DenormalizerInterface
-     */
     private $mapper;
 
     public function __construct(ParserInterface $parser, DenormalizerInterface $mapper)

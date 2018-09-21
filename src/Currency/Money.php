@@ -2,7 +2,8 @@
 
 namespace App\Currency;
 
-use App\Exception\MoneyException;
+use App\Exception\BaseException;
+use Maba\Component\Monetary\Exception\InvalidAmountException;
 
 class Money
 {
@@ -10,6 +11,10 @@ class Money
      * @var float
      */
     private $amount;
+
+    /**
+     * @var Currency
+     */
     private $currency;
 
     public function __construct(float $amount, Currency $currency)
@@ -26,13 +31,21 @@ class Money
         return $this->amount;
     }
 
+    /**
+     * @param float $amount
+     *
+     * @return Money
+     * @throws InvalidAmountException
+     */
     private function setAmount(float $amount)
     {
         if ($amount < 0) {
-            throw MoneyException::invalidAmount($amount);
+            throw new InvalidAmountException(BaseException::EXIT_INVALID_MONEY_AMOUNT);
         }
 
         $this->amount = $amount;
+
+        return $this;
     }
 
     /**
@@ -45,15 +58,17 @@ class Money
 
     /**
      * @param Currency $currency
+     *
+     * @return Money
      */
     private function setCurrency(Currency $currency)
     {
         $this->currency = $currency;
+
+        return $this;
     }
 
     /**
-     * Converts the amount to the given Currency.
-     *
      * @param Currency $currency
      *
      * @return Money
@@ -67,40 +82,32 @@ class Money
     }
 
     /**
-     * Checks if two Money objects are equal.
-     *
      * @param Money $money
      *
      * @return bool
      */
-    public function equals(Money $money)
+    public function equals(self $money)
     {
-        return $this->getCurrency()->getCode() === $money->getCurrency()->getCode()
+        return $this->getCurrency()->getCurrency() === $money->getCurrency()->getCurrency()
             && $this->getAmount() === $money->getAmount();
     }
 
     /**
-     * Returns true if the Currency of this Money object
-     * is the same as the passed argument.
-     *
-     * @param Currency $currency
+     * @param Currency
      *
      * @return bool
      */
     public function isCurrency(Currency $currency): bool
     {
-        return $this->getCurrency()->getCode() === $currency->getCode();
+        return $this->getCurrency()->getCurrency() === $currency->getCurrency();
     }
 
     /**
-     * Adds the amount of the passed Money object
-     * to the amount of the current object.
-     *
      * @param Money $money
      *
      * @return Money
      */
-    public function add(Money $money): Money
+    public function add(self $money): self
     {
         $amount = $this->getAmount() + $money->convertTo($this->getCurrency())->getAmount();
 
@@ -111,11 +118,11 @@ class Money
      * Subtracts the amount of the passed Money object
      * from the amount of the current object.
      *
-     * @param Money $money
+     * @param Money
      *
      * @return Money
      */
-    public function subtract(Money $money): Money
+    public function subtract(self $money): self
     {
         $a = $this->getAmount();
         $b = $money->convertTo($this->getCurrency())->getAmount();

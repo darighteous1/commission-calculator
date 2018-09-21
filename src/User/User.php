@@ -2,7 +2,8 @@
 
 namespace App\User;
 
-use App\Exception\UserException;
+use App\Exception\BaseException;
+use App\User\Exception\InvalidUserTypeException;
 use InvalidArgumentException;
 use App\Calculator\Calculator;
 use App\Currency\Currency;
@@ -14,13 +15,11 @@ class User
     const USER_TYPE_LEGAL = 'legal';
 
     const USER_TYPES_MAP = [
-      self::USER_TYPE_NATURAL,
-      self::USER_TYPE_LEGAL,
+        self::USER_TYPE_NATURAL,
+        self::USER_TYPE_LEGAL,
     ];
 
     /**
-     * @var array
-     *
      * Holds information about the number of Transaction for this user, split by weeks
      * as well as the remaining Transaction amount before owing a commission fee, also split by weeks
      *
@@ -31,6 +30,8 @@ class User
      * weeklyTransactionsCount holds the number of performed Transaction for the specified week
      * weeklyTransactionsCapSpace holds the remaining amount in EUR before reaching the specified limit
      * of free transaction amount (@see Calculator::FREE_TRANSACTION_LIMIT_EUR)
+     *
+     * @var array
      */
     private $transactionsData;
 
@@ -78,15 +79,23 @@ class User
         return $this->userType;
     }
 
+    /**
+     * @param string $type
+     *
+     * @return User
+     * @throws InvalidUserTypeException
+     */
     public function setUserType(string $type)
     {
         $userType = trim($type);
 
         if (!in_array($userType, self::USER_TYPES_MAP, true)) {
-            throw UserException::invalidUserType($userType);
+            throw new InvalidUserTypeException(BaseException::EXIT_INVALID_CLIENT_TYPE);
         }
 
         $this->userType = $userType;
+
+        return $this;
     }
 
     /**
@@ -97,6 +106,12 @@ class User
         return $this->userId;
     }
 
+    /**
+     * @param int $id
+     *
+     * @return User
+     * @throws InvalidArgumentException
+     */
     public function setUserId(int $id)
     {
         if ($id <= 0) {
@@ -104,6 +119,8 @@ class User
         }
 
         $this->userId = $id;
+
+        return $this;
     }
 
     /**
@@ -130,14 +147,12 @@ class User
             $this->transactionsData[$week]['weeklyTransactionsCapSpace'] = $capSpace;
         } else {
             $capSpace = $this->transactionsData[$week]['weeklyTransactionsCapSpace'] - $amountInEUR->getAmount();
-            $this->transactionsData[$week]['weeklyTransactionsCount'] += 1;
+            ++$this->transactionsData[$week]['weeklyTransactionsCount'];
             $this->transactionsData[$week]['weeklyTransactionsCapSpace'] = $capSpace;
         }
     }
 
     /**
-     * Checks whether the free weekly Transaction number has been reached.
-     *
      * @param string $week
      *
      * @return bool
@@ -148,8 +163,6 @@ class User
     }
 
     /**
-     * Checks whether the free weekly Transaction amount total has been reached.
-     *
      * @param string $week
      *
      * @return bool

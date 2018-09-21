@@ -2,28 +2,33 @@
 
 namespace App\Utility\Parser;
 
-use App\Exception\InvalidRowException;
+use App\Exception\BaseException;
 use App\Transaction\TransactionRow;
+use App\Utility\Parser\Exception\InvalidRowException;
 
 class CsvParser implements ParserInterface
 {
-
+    /**
+     * @var resource
+     */
     private $fileHandle;
 
     /**
-     * Sets the file name
-     *
      * @param string $fileName
-     * @return void
+     *
+     * @return CsvParser
      */
-    public function setFile(string $fileName)
+    public function setFilename(string $fileName)
     {
         $this->fileHandle = fopen($fileName, 'r');
+
+        return $this;
     }
 
     /**
      * Reads the next transaction data from a file
      * yields zero-based array
+     * @throws InvalidRowException
      */
     public function parse()
     {
@@ -33,7 +38,7 @@ class CsvParser implements ParserInterface
             ++$row;
 
             if (count($data) !== TransactionRow::EXPECTED_NUMBER_OF_COLUMNS) {
-                throw InvalidRowException::incorrectColumns($row, count($data));
+                throw new InvalidRowException(BaseException::EXIT_INVALID_FILE_FORMAT);
             }
 
             $data[] = $row;

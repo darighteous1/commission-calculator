@@ -5,12 +5,11 @@ namespace App\Utility\Parser;
 interface ParserInterface
 {
     /**
-     * Sets the file name
-     *
      * @param string $fileName
-     * @return void
+     *
+     * @return ParserInterface
      */
-    public function setFile(string $fileName);
+    public function setFilename(string $fileName);
 
     /**
      * Parses next transaction data

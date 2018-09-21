@@ -2,14 +2,11 @@
 
 namespace App\Utility\Mapper;
 
-
 use App\Transaction\TransactionRow;
 
 class JsonMapper implements DenormalizerInterface
 {
-
     /**
-     * Maps array to entity
      * @param $data
      * @return TransactionRow
      */
